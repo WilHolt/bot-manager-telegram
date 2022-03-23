@@ -1,6 +1,6 @@
 {
   "name": "telegram-bot-nodejs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple bot manager for telegram",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
