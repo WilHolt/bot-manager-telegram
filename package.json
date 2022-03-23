@@ -1,12 +1,17 @@
 {
   "name": "bot-manager-telegram",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple bot manager for telegram",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "repository": "https://github.com/alvaroBegnini/telegram-bot-manager.git",
+  "repository": "https://github.com/alvaroBegnini/bot-manager-telegram.git",
   "author": "Alvaro <begninialvaro@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "telegram",
+    "telegram-bot",
+    "bot-manager"
+  ],
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "ts-node-dev": "^1.1.8",

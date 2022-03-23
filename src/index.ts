@@ -30,7 +30,7 @@ export default class TelegramBot {
   chatId?: string
   path: string
 
-  constructor(botToken: string, chatId: string) {
+  constructor(botToken: string, chatId?: string) {
     this.token = botToken
     this.chatId = chatId
     this.path = `https://api.telegram.org/bot${this.token}`
