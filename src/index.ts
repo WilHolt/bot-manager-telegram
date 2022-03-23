@@ -117,9 +117,4 @@ export default class TelegramBot {
     const response = (await axios(`${this.path}/getUpdates`)).data
     return response
   }
-
-  async getFirstID() {
-    const response = (await axios(`${this.path}/getUpdates`)).data.result[0].message.from
-    return response
-  }
 }
