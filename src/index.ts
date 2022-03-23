@@ -16,6 +16,7 @@ type sendPoll = {
   correctOptionID?: number,
   chatId?: string,
   disableNotification?: boolean,
+  isAnonymous?: boolean,
 }
 
 type sendMessage = {
@@ -59,10 +60,11 @@ export default class TelegramBot {
     return response
   }
 
-  async sendPoll({ question, options, type, correctOptionID, chatId, disableNotification }: sendPoll) {
+  async sendPoll({ question, options, type, correctOptionID, chatId, disableNotification, isAnonymous }: sendPoll) {
     const messageParams = qs.stringify({
       chat_id: chatId || this.chatId,
       question: question,
+      is_anonymous: isAnonymous || true,
       options: JSON.stringify(options),
       type: type || "regular",
       correct_option_id: correctOptionID,
