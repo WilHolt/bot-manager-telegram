@@ -2,6 +2,32 @@ import axios from "axios"
 import qs from "qs"
 
 
+type sendMessageResultChat = {
+  id: number,
+  firstName: string,
+  type: string
+}
+
+type sendMessageResultFrom = {
+  id: number,
+  is_bot: boolean,
+  firstName: string,
+  username: string
+}
+
+type sendMessageResult = {
+  message_id: number,
+  from: sendMessageResultFrom,
+  chat: sendMessageResultChat,
+  date: number
+  text: string
+}
+
+type sendMessageReturn = {
+  ok: boolean,
+  result: sendMessageResult
+}
+
 type sendContact = {
   chatId?: string,
   phoneNumber: string,
@@ -37,6 +63,17 @@ export default class TelegramBot {
     this.path = `https://api.telegram.org/bot${this.token}`
   }
 
+  async sendMessage({ message, chatId, disableNotification }: sendMessage): Promise<sendMessageReturn> {
+    const messageParams = qs.stringify({
+      chat_id: chatId || this.chatId,
+      text: message,
+      disableNotification: disableNotification || false,
+    })
+    const url = `${this.path}/sendMessage?${messageParams}`
+    const response = (await axios(url)).data
+    return response
+  }
+
   async sendContact({ phoneNumber, firstName, chatId, disableNotification }: sendContact) {
     const messageParams = qs.stringify({
       chat_id: chatId || this.chatId,
@@ -45,17 +82,6 @@ export default class TelegramBot {
       disableNotification: disableNotification || false,
     })
     const url = `${this.path}/sendContact?${messageParams}`
-    const response = (await axios(url)).data
-    return response
-  }
-
-  async sendMessage({ message, chatId, disableNotification }: sendMessage) {
-    const messageParams = qs.stringify({
-      chat_id: chatId || this.chatId,
-      text: message,
-      disableNotification: disableNotification || false,
-    })
-    const url = `${this.path}/sendMessage?${messageParams}`
     const response = (await axios(url)).data
     return response
   }
@@ -88,7 +114,7 @@ export default class TelegramBot {
   }
 
   async getUpdates() {
-    const response = (await axios(`${this.path}/getUpdates`)).data.result
+    const response = (await axios(`${this.path}/getUpdates`)).data
     return response
   }
 
