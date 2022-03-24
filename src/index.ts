@@ -2,13 +2,93 @@ import axios from "axios"
 import qs from "qs"
 
 
-type sendMessageResultChat = {
+
+type sendPollReturnResultPoll = {
+  id: string,
+  question: string,
+  options: {
+    text: string,
+    voter_count: number,
+  }[],
+  total_voter_count: number,
+  is_closed: boolean,
+  is_anonymous: boolean,
+  type: string,
+  allows_multiple_answers: boolean,
+}
+
+type sendPollReturnResult = {
+  message_id: number,
+  from: resultFrom,
+  chat: resultChat,
+  date: number,
+  poll: sendPollReturnResultPoll
+}
+
+type sendPollReturn = {
+  ok: boolean,
+  result: sendPollReturnResult
+}
+
+type getUpdatesReturnFrom = {
+  message_id: number,
+  from: resultFrom,
+  chat: resultChat,
+  date: number,
+  text: string
+}
+
+type getUpdatesReturn = {
+  ok: boolean,
+  result: {
+    update_id: number,
+    message: getUpdatesReturnFrom
+  }[]
+}
+
+type sendDiceReturnResultDice = {
+  emoji: string,
+  value: number
+}
+
+type sendDiceReturnResult = {
+  message_id: number,
+  from: resultFrom,
+  chat: resultChat,
+  date: number,
+  dice: sendDiceReturnResultDice
+}
+
+type sendDiceReturn = {
+  ok: boolean,
+  result: sendDiceReturnResult
+}
+
+type sendContactReturnResultContact = {
+  phone_number: string,
+  first_name: string,
+}
+
+type sendContactReturnResult = {
+  message_id: number,
+  from: sendContactReturnResultContact,
+  chat: resultChat,
+  date: number,
+  contact: sendContactReturnResult,
+}
+
+type sendContactReturn = {
+  ok: boolean,
+  result: sendContactReturnResult,
+}
+
+type resultChat = {
   id: number,
   firstName: string,
   type: string
 }
 
-type sendMessageResultFrom = {
+type resultFrom = {
   id: number,
   is_bot: boolean,
   firstName: string,
@@ -17,8 +97,8 @@ type sendMessageResultFrom = {
 
 type sendMessageResult = {
   message_id: number,
-  from: sendMessageResultFrom,
-  chat: sendMessageResultChat,
+  from: resultFrom,
+  chat: resultChat,
   date: number
   text: string
 }
@@ -63,7 +143,7 @@ export default class TelegramBot {
     this.path = `https://api.telegram.org/bot${this.token}`
   }
 
-  async publicCall(method: string, qs: string){
+  async publicCall(method: string, qs: string) {
     const response = await axios(`${this.path}/${method}?${qs}`)
     return response.data
   }
@@ -78,7 +158,7 @@ export default class TelegramBot {
     return response
   }
 
-  async sendContact({ phoneNumber, firstName, chatId, disableNotification }: sendContact) {
+  async sendContact({ phoneNumber, firstName, chatId, disableNotification }: sendContact): Promise<sendContactReturn> {
     const messageParams = qs.stringify({
       chat_id: chatId || this.chatId,
       phone_number: phoneNumber,
@@ -89,7 +169,7 @@ export default class TelegramBot {
     return response
   }
 
-  async sendPoll({ question, options, type, correctOptionID, chatId, disableNotification, isAnonymous }: sendPoll) {
+  async sendPoll({ question, options, type, correctOptionID, chatId, disableNotification, isAnonymous }: sendPoll): Promise<sendPollReturn> {
     const messageParams = qs.stringify({
       chat_id: chatId || this.chatId,
       question: question,
@@ -104,7 +184,7 @@ export default class TelegramBot {
     return response
   }
 
-  async sendDice(chatId?: string, disableNotification?: boolean) {
+  async sendDice(chatId?: string, disableNotification?: boolean): Promise<sendDiceReturn> {
     const messageParams = qs.stringify({
       chat_id: chatId || this.chatId,
       disableNotification: disableNotification || false,
@@ -113,7 +193,7 @@ export default class TelegramBot {
     return response
   }
 
-  async getUpdates() {
+  async getUpdates(): Promise<getUpdatesReturn> {
     const response = (await axios(`${this.path}/getUpdates`)).data
     return response
   }
