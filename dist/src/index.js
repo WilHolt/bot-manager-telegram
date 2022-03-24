@@ -20,6 +20,12 @@ class TelegramBot {
         this.chatId = chatId;
         this.path = `https://api.telegram.org/bot${this.token}`;
     }
+    publicCall(method, qs) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield (0, axios_1.default)(`${this.path}/${method}?${qs}`);
+            return response.data;
+        });
+    }
     sendMessage({ message, chatId, disableNotification }) {
         return __awaiter(this, void 0, void 0, function* () {
             const messageParams = qs_1.default.stringify({
@@ -27,8 +33,7 @@ class TelegramBot {
                 text: message,
                 disableNotification: disableNotification || false,
             });
-            const url = `${this.path}/sendMessage?${messageParams}`;
-            const response = (yield (0, axios_1.default)(url)).data;
+            const response = yield this.publicCall("sendMessage", messageParams);
             return response;
         });
     }
@@ -40,8 +45,7 @@ class TelegramBot {
                 first_name: firstName,
                 disableNotification: disableNotification || false,
             });
-            const url = `${this.path}/sendContact?${messageParams}`;
-            const response = (yield (0, axios_1.default)(url)).data;
+            const response = yield this.publicCall("sendContact", messageParams);
             return response;
         });
     }
@@ -56,8 +60,7 @@ class TelegramBot {
                 correct_option_id: correctOptionID,
                 disableNotification: disableNotification || false,
             });
-            const url = `${this.path}/sendPoll?${messageParams}`;
-            const response = (yield (0, axios_1.default)(url)).data;
+            const response = yield this.publicCall("sendPoll", messageParams);
             return response;
         });
     }
@@ -67,8 +70,7 @@ class TelegramBot {
                 chat_id: chatId || this.chatId,
                 disableNotification: disableNotification || false,
             });
-            const url = `${this.path}/sendDice?${messageParams}`;
-            const response = (yield (0, axios_1.default)(url)).data;
+            const response = yield this.publicCall("sendDice", messageParams);
             return response;
         });
     }

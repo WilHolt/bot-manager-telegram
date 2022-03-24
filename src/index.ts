@@ -63,14 +63,18 @@ export default class TelegramBot {
     this.path = `https://api.telegram.org/bot${this.token}`
   }
 
+  async publicCall(method: string, qs: string){
+    const response = await axios(`${this.path}/${method}?${qs}`)
+    return response.data
+  }
+
   async sendMessage({ message, chatId, disableNotification }: sendMessage): Promise<sendMessageReturn> {
     const messageParams = qs.stringify({
       chat_id: chatId || this.chatId,
       text: message,
       disableNotification: disableNotification || false,
     })
-    const url = `${this.path}/sendMessage?${messageParams}`
-    const response = (await axios(url)).data
+    const response = await this.publicCall("sendMessage", messageParams)
     return response
   }
 
@@ -81,8 +85,7 @@ export default class TelegramBot {
       first_name: firstName,
       disableNotification: disableNotification || false,
     })
-    const url = `${this.path}/sendContact?${messageParams}`
-    const response = (await axios(url)).data
+    const response = await this.publicCall("sendContact", messageParams)
     return response
   }
 
@@ -97,10 +100,8 @@ export default class TelegramBot {
       disableNotification: disableNotification || false,
     })
 
-    const url = `${this.path}/sendPoll?${messageParams}`
-    const response = (await axios(url)).data
+    const response = await this.publicCall("sendPoll", messageParams)
     return response
-
   }
 
   async sendDice(chatId?: string, disableNotification?: boolean) {
@@ -108,8 +109,7 @@ export default class TelegramBot {
       chat_id: chatId || this.chatId,
       disableNotification: disableNotification || false,
     })
-    const url = `${this.path}/sendDice?${messageParams}`
-    const response = (await axios(url)).data
+    const response = await this.publicCall("sendDice", messageParams)
     return response
   }
 
