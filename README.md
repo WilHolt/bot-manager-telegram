@@ -1,5 +1,10 @@
+
+
 # A Simple bot manager for telegram
 
+```
+$ npm install telegram-bot-nodejs
+```
 
 ## **Getting started**
 #### you will need a bot created with botFather
