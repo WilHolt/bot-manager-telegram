@@ -12,13 +12,15 @@
 $ npm install telegram-bot-nodejs
 ```
 
-#### you will need a bot created with botFather
+### First you will need a bot created with botFather and a chatId to send the messages
 
-You can learn how to create a new bot [here](https://core.telegram.org/bots#6-botfather)\
-[How to get your chat id](https://stackoverflow.com/questions/32423837/telegram-bot-how-to-get-a-group-chat-id)
+
+[How to create a new bot](https://core.telegram.org/bots#6-botfather)\
+[How to get your chat id](https://stackoverflow.com/questions/32423837/telegram-bot-how-to-get-a-group-chat-id)\
 Copy the bot token and your chat id
+#
 
-## Start your bot here:
+### Start your bot here:
 
 ```typescript
 import TelegramBot from "telegram-bot-nodejs";
@@ -29,7 +31,7 @@ const bot = new TelegramBot("your token here", "chatId here");
 The chatId is not mandatory but it's recommended to use.
 Otherwise you will have to send the _chatId_ in every request
 
-## **Sending message**
+### **Sending message**
 
 ```typescript
 import TelegramBot from "telegram-bot-nodejs";
@@ -42,7 +44,7 @@ async function sendMessage() {
 }
 ```
 
-## **Sending message to another chat**
+### **Sending message to another chat**
 
 If you want to send a message to another chat you can just add _chatId_ in your request
 
@@ -60,7 +62,7 @@ async function sendMessage() {
 }
 ```
 
-## **Sending contacts**
+### **Sending contacts**
 
 ```typescript
 import TelegramBot from "telegram-bot-nodejs";
@@ -76,7 +78,7 @@ async function sendContact() {
 }
 ```
 
-## **Get updates**
+### **Get updates**
 
 ```typescript
 import TelegramBot from "telegram-bot-nodejs";
@@ -89,7 +91,7 @@ async function getUpdates() {
 }
 ```
 
-## **Send poll**
+### **Send poll**
 
 ```typescript
 import TelegramBot from "telegram-bot-nodejs";
@@ -107,7 +109,7 @@ async function sendPoll() {
 //By default the type of polling will be regular, but you can make a quiz with {type: "quiz"}
 ```
 
-## **Silent notifications**
+### **Silent notifications**
 
 The user receives the notifications but without any sound
 
@@ -125,7 +127,7 @@ async function silentMessage() {
 }
 ```
 
-## **Send dice**
+### **Send dice**
 
 send a dice that lands on a random number
 
