@@ -40,6 +40,8 @@ async function sendMessage() {
   const response = bot.sendMessage({ message: "Hello world" });
   console.log(response);
 }
+
+sendMessage()
 ```
 
 ## **Sending message to another chat**
@@ -58,6 +60,8 @@ async function sendMessage() {
   });
   console.log(response);
 }
+
+sendMessage()
 ```
 
 ## **Sending contacts**
@@ -74,6 +78,8 @@ async function sendContact() {
   });
   console.log(response);
 }
+
+sendContact()
 ```
 
 ## **Get updates**
@@ -87,6 +93,8 @@ async function getUpdates() {
   const response = bot.getUpdates();
   console.log(response);
 }
+
+getUpdates()
 ```
 
 ## **Send poll**
