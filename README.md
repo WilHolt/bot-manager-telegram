@@ -112,6 +112,8 @@ async function sendPoll() {
     options: ["option1", "option2", "option3"],
   });
   console.log(response);
+
+  sendPoll()
 }
 
 //By default the type of polling will be regular, but you can make a quiz with {type: "quiz"}
@@ -133,6 +135,8 @@ async function silentMessage() {
   });
   console.log(response);
 }
+
+silentMessage()
 ```
 
 ### **Send dice**
@@ -144,8 +148,10 @@ import TelegramBot from "telegram-bot-nodejs";
 
 const bot = new TelegramBot("your token here", "chatId here");
 
-async function silentMessage() {
+async function sendDice() {
   const response = bot.sendDice();
   console.log(response);
 }
+
+sendDice()
 ```
