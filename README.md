@@ -1,17 +1,16 @@
 # A Simple bot manager for telegram
 
-```
-$ npm install telegram-bot-nodejs
-```
-
 [![npm version](https://badge.fury.io/js/telegram-bot-nodejs.svg)](https://badge.fury.io/js/telegram-bot-nodejs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![npm](https://img.shields.io/npm/dw/telegram-bot-nodejs)
 ![GitHub last commit](https://img.shields.io/github/last-commit/alvaroBegnini/bot-manager-telegram)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/alvaroBegnini/bot-manager-telegram)
 
-
 ## **Getting started**
+
+```
+$ npm install telegram-bot-nodejs
+```
 
 #### you will need a bot created with botFather
 
@@ -21,6 +20,8 @@ Copy the bot token and your chat id
 ## Start your bot here:
 
 ```typescript
+import TelegramBot from "telegram-bot-nodejs";
+
 const bot = new TelegramBot("your token here", "chatId here");
 ```
 
@@ -30,6 +31,8 @@ Otherwise you will have to send the _chatId_ in every request
 ## **Sending message**
 
 ```typescript
+import TelegramBot from "telegram-bot-nodejs";
+
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendMessage() {
@@ -43,6 +46,8 @@ async function sendMessage() {
 If you want to send a message to another chat you can just add _chatId_ in your request
 
 ```typescript
+import TelegramBot from "telegram-bot-nodejs";
+
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendMessage() {
@@ -57,6 +62,8 @@ async function sendMessage() {
 ## **Sending contacts**
 
 ```typescript
+import TelegramBot from "telegram-bot-nodejs";
+
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendContact() {
@@ -71,6 +78,8 @@ async function sendContact() {
 ## **Get updates**
 
 ```typescript
+import TelegramBot from "telegram-bot-nodejs";
+
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function getUpdates() {
@@ -82,6 +91,8 @@ async function getUpdates() {
 ## **Send poll**
 
 ```typescript
+import TelegramBot from "telegram-bot-nodejs";
+
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendPoll() {
@@ -100,6 +111,8 @@ async function sendPoll() {
 The user receives the notifications but without any sound
 
 ```typescript
+import TelegramBot from "telegram-bot-nodejs";
+
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function silentMessage() {
@@ -116,6 +129,8 @@ async function silentMessage() {
 send a dice that lands on a random number
 
 ```typescript
+import TelegramBot from "telegram-bot-nodejs";
+
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function silentMessage() {
