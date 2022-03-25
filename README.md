@@ -14,7 +14,8 @@ $ npm install telegram-bot-nodejs
 
 #### you will need a bot created with botFather
 
-Create a bot using the botFather of telegram [here](https://t.me/botfather)\
+You can learn how to create a new bot [here](https://core.telegram.org/bots#6-botfather)\
+[How to get your chat id](https://stackoverflow.com/questions/32423837/telegram-bot-how-to-get-a-group-chat-id)
 Copy the bot token and your chat id
 
 ## Start your bot here:
