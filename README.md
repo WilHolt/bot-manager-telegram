@@ -39,7 +39,7 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendMessage() {
-  const response = bot.sendMessage({ message: "Hello world" });
+  const response = await bot.sendMessage({ message: "Hello world" });
   console.log(response);
 }
 
@@ -56,7 +56,7 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendMessage() {
-  const response = bot.sendMessage({
+  const response = await bot.sendMessage({
     message: "Hello world",
     chatId: "your chatId here",
   });
@@ -74,7 +74,7 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendContact() {
-  const response = bot.sendContact({
+  const response = await bot.sendContact({
     phoneNumber: "+556599999999",
     firstName: "Alvaro",
   });
@@ -92,7 +92,7 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function getUpdates() {
-  const response = bot.getUpdates();
+  const response = await bot.getUpdates();
   console.log(response);
 }
 
@@ -107,7 +107,7 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendPoll() {
-  const response = bot.sendPoll({
+  const response = await bot.sendPoll({
     question: "Some question here",
     options: ["option1", "option2", "option3"],
   });
@@ -129,7 +129,7 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function silentMessage() {
-  const response = bot.sendMessage({
+  const response = await bot.sendMessage({
     message: "Silence!",
     disableNotification: true,
   });
@@ -149,7 +149,7 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendDice() {
-  const response = bot.sendDice();
+  const response = await bot.sendDice();
   console.log(response);
 }
 
