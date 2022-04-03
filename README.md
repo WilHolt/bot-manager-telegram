@@ -39,7 +39,7 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendMessage() {
-  const response = await bot.sendMessage({ message: "Hello world" });
+  const response = await bot.sendMessage("Hello world");
   console.log(response);
 }
 
@@ -73,10 +73,10 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendContact() {
-  const response = await bot.sendContact({
-    phoneNumber: "+556599999999",
+  const response = await bot.sendContact(
     firstName: "Alvaro",
-  });
+    phoneNumber: "+556599999999",
+ );
   console.log(response);
 }
 
@@ -106,10 +106,10 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendPoll() {
-  const response = await bot.sendPoll({
-    question: "Some question here",
-    options: ["option1", "option2", "option3"],
-  });
+  const response = await bot.sendPoll(
+    "Some random question here",
+    ["option1", "option2", "option3"],
+  );
   console.log(response);
 
   sendPoll();
