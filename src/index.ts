@@ -1,6 +1,6 @@
 import axios from "axios"
 import qs from "qs"
-
+import "./index"
 
 
 type sendPollReturnResultPoll = {
@@ -108,16 +108,7 @@ type sendMessageReturn = {
   result: sendMessageResult
 }
 
-type sendContact = {
-  chatId?: string,
-  phoneNumber: string,
-  firstName: string,
-  disableNotification?: boolean,
-}
-
 type sendPoll = {
-  question: string,
-  options: string[],
   type?: string,
   correctOptionID?: number,
   chatId?: string,
@@ -125,8 +116,7 @@ type sendPoll = {
   isAnonymous?: boolean,
 }
 
-type sendMessage = {
-  message: string,
+type defaultMessage = {
   chatId?: string
   disableNotification?: boolean,
 }
@@ -148,46 +138,46 @@ export default class TelegramBot {
     return response.data
   }
 
-  async sendMessage({ message, chatId, disableNotification }: sendMessage): Promise<sendMessageReturn> {
+  async sendMessage(message: string, options?: defaultMessage): Promise<sendMessageReturn> {
     const messageParams = qs.stringify({
-      chat_id: chatId || this.chatId,
       text: message,
-      disableNotification: disableNotification || false,
+      chat_id: options?.chatId || this.chatId,
+      disableNotification: options?.disableNotification || false,
     })
     const response = await this.publicCall("sendMessage", messageParams)
     return response
   }
 
-  async sendContact({ phoneNumber, firstName, chatId, disableNotification }: sendContact): Promise<sendContactReturn> {
+  async sendContact(firstName: string, phoneNumber: string,  options?: defaultMessage): Promise<sendContactReturn> {
     const messageParams = qs.stringify({
-      chat_id: chatId || this.chatId,
+      chat_id: options?.chatId || this.chatId,
       phone_number: phoneNumber,
       first_name: firstName,
-      disableNotification: disableNotification || false,
+      disableNotification: options?.disableNotification || false,
     })
     const response = await this.publicCall("sendContact", messageParams)
     return response
   }
 
-  async sendPoll({ question, options, type, correctOptionID, chatId, disableNotification, isAnonymous }: sendPoll): Promise<sendPollReturn> {
+  async sendPoll(question: string, choices: string[], options?: sendPoll): Promise<sendPollReturn> {
     const messageParams = qs.stringify({
-      chat_id: chatId || this.chatId,
+      chat_id: options?.chatId || this.chatId,
       question: question,
-      is_anonymous: isAnonymous || true,
-      options: JSON.stringify(options),
-      type: type || "regular",
-      correct_option_id: correctOptionID,
-      disableNotification: disableNotification || false,
+      is_anonymous: options?.isAnonymous || true,
+      options: JSON.stringify(choices),
+      type: options?.type || "regular",
+      correct_option_id: options?.correctOptionID,
+      disableNotification: options?.disableNotification || false,
     })
 
     const response = await this.publicCall("sendPoll", messageParams)
     return response
   }
 
-  async sendDice(chatId?: string, disableNotification?: boolean): Promise<sendDiceReturn> {
+  async sendDice(options?: defaultMessage): Promise<sendDiceReturn> {
     const messageParams = qs.stringify({
-      chat_id: chatId || this.chatId,
-      disableNotification: disableNotification || false,
+      chat_id: options?.chatId || this.chatId,
+      disableNotification: options?.disableNotification || false,
     })
     const response = await this.publicCall("sendDice", messageParams)
     return response
@@ -197,4 +187,32 @@ export default class TelegramBot {
     const response = (await axios(`${this.path}/getUpdates`)).data
     return response
   }
+
+  async sendPhotoString(photo: string, options?: defaultMessage ){
+    const messageParams = qs.stringify({
+      chat_id: options?.chatId || this.chatId,
+      disableNotification: options?.disableNotification || false,
+      photo: photo
+    })
+    const response = await this.publicCall("sendPhoto", messageParams)
+    return response
+  }
+
+  async sendVideoString(video: string, options?: defaultMessage ){
+    const messageParams = qs.stringify({
+      chat_id: options?.chatId || this.chatId,
+      disableNotification: options?.disableNotification || false,
+      video: video
+    })
+    const response = await this.publicCall("sendVideo", messageParams)
+    return response
+  }
+  
+  // async sendPhotoFile(options?: defaultMessage){
+  //   const messageParams = qs.stringify({
+  //     chat_id: options?.chatId || this.chatId,
+  //     disableNotification: options?.disableNotification || false,
+  //   })
+  //   axios({headers: {'Content-Type': 'multipart/form-data' }, url: `${this.path}/sendPhoto?${messageParams}`, data: ''})
+  // }
 }

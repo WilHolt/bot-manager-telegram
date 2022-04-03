@@ -14,10 +14,10 @@ $ npm install telegram-bot-nodejs
 
 ### First you will need a bot created with botFather and a chatId to send the messages
 
-
 [How to create a new bot](https://core.telegram.org/bots#6-botfather)\
 [How to get your chat id](https://stackoverflow.com/questions/32423837/telegram-bot-how-to-get-a-group-chat-id)\
 Copy the bot token and your chat id
+
 #
 
 ### Start your bot here:
@@ -43,7 +43,7 @@ async function sendMessage() {
   console.log(response);
 }
 
-sendMessage()
+sendMessage();
 ```
 
 ### **Sending message to another chat**
@@ -56,14 +56,13 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendMessage() {
-  const response = await bot.sendMessage({
-    message: "Hello world",
+  const response = await bot.sendMessage("Hello world", {
     chatId: "your chatId here",
   });
   console.log(response);
 }
 
-sendMessage()
+sendMessage();
 ```
 
 ### **Sending contacts**
@@ -81,7 +80,7 @@ async function sendContact() {
   console.log(response);
 }
 
-sendContact()
+sendContact();
 ```
 
 ### **Get updates**
@@ -96,7 +95,7 @@ async function getUpdates() {
   console.log(response);
 }
 
-getUpdates()
+getUpdates();
 ```
 
 ### **Send poll**
@@ -113,7 +112,7 @@ async function sendPoll() {
   });
   console.log(response);
 
-  sendPoll()
+  sendPoll();
 }
 
 //By default the type of polling will be regular, but you can make a quiz with {type: "quiz"}
@@ -129,14 +128,13 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function silentMessage() {
-  const response = await bot.sendMessage({
-    message: "Silence!",
+  const response = await bot.sendMessage("Silence!", {
     disableNotification: true,
   });
   console.log(response);
 }
 
-silentMessage()
+silentMessage();
 ```
 
 ### **Send dice**
@@ -153,5 +151,5 @@ async function sendDice() {
   console.log(response);
 }
 
-sendDice()
+sendDice();
 ```
