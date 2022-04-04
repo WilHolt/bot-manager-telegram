@@ -92,16 +92,5 @@ class TelegramBot {
             return response;
         });
     }
-    sendVideoString(video, options) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const messageParams = qs_1.default.stringify({
-                chat_id: (options === null || options === void 0 ? void 0 : options.chatId) || this.chatId,
-                disableNotification: (options === null || options === void 0 ? void 0 : options.disableNotification) || false,
-                video: video
-            });
-            const response = yield this.publicCall("sendVideo", messageParams);
-            return response;
-        });
-    }
 }
 exports.default = TelegramBot;

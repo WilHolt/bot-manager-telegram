@@ -157,3 +157,20 @@ async function sendDice() {
 
 sendDice();
 ```
+
+### **Send photo**
+
+Send a photo from telegram servers / HTTP URL
+
+```typescript
+import TelegramBot from "telegram-bot-nodejs";
+
+const bot = new TelegramBot("your token here", "chatId here");
+
+async function sendPhoto() {
+  const response = await bot.sendPhotoString("https://www.petlove.com.br/static/pets/dog/110696/hd_1529353218-photo-1529353182455.jpg");
+  console.log(response);
+}
+
+sendPhoto();
+```

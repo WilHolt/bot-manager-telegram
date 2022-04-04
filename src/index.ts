@@ -3,6 +3,19 @@ import qs from "qs"
 import "./index"
 
 
+type sendPhotoReturnResult = {
+  message_id: number,
+  from: {id: number, is_bot: boolean, first_name: string, username: string}
+  chat: {id: number, first_name: string, type: string,}
+  date: number,
+  photo: {file_id: string, file_unique_id: string, file_size: number, width: number, height: number}[]
+}
+
+type sendPhotoReturn = {
+  ok: boolean,
+  result: sendPhotoReturnResult
+}
+
 type sendPollReturnResultPoll = {
   id: string,
   question: string,
@@ -188,7 +201,7 @@ export default class TelegramBot {
     return response
   }
 
-  async sendPhotoString(photo: string, options?: defaultMessage ){
+  async sendPhotoString(photo: string, options?: defaultMessage ): Promise<sendPhotoReturn> {
     const messageParams = qs.stringify({
       chat_id: options?.chatId || this.chatId,
       disableNotification: options?.disableNotification || false,
@@ -198,21 +211,4 @@ export default class TelegramBot {
     return response
   }
 
-  async sendVideoString(video: string, options?: defaultMessage ){
-    const messageParams = qs.stringify({
-      chat_id: options?.chatId || this.chatId,
-      disableNotification: options?.disableNotification || false,
-      video: video
-    })
-    const response = await this.publicCall("sendVideo", messageParams)
-    return response
-  }
-  
-  // async sendPhotoFile(options?: defaultMessage){
-  //   const messageParams = qs.stringify({
-  //     chat_id: options?.chatId || this.chatId,
-  //     disableNotification: options?.disableNotification || false,
-  //   })
-  //   axios({headers: {'Content-Type': 'multipart/form-data' }, url: `${this.path}/sendPhoto?${messageParams}`, data: ''})
-  // }
 }

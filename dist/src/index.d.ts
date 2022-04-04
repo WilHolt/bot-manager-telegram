@@ -1,3 +1,30 @@
+import "./index";
+declare type sendPhotoReturnResult = {
+    message_id: number;
+    from: {
+        id: number;
+        is_bot: boolean;
+        first_name: string;
+        username: string;
+    };
+    chat: {
+        id: number;
+        first_name: string;
+        type: string;
+    };
+    date: number;
+    photo: {
+        file_id: string;
+        file_unique_id: string;
+        file_size: number;
+        width: number;
+        height: number;
+    }[];
+};
+declare type sendPhotoReturn = {
+    ok: boolean;
+    result: sendPhotoReturnResult;
+};
 declare type sendPollReturnResultPoll = {
     id: string;
     question: string;
@@ -88,23 +115,14 @@ declare type sendMessageReturn = {
     ok: boolean;
     result: sendMessageResult;
 };
-declare type sendContact = {
-    chatId?: string;
-    phoneNumber: string;
-    firstName: string;
-    disableNotification?: boolean;
-};
 declare type sendPoll = {
-    question: string;
-    options: string[];
     type?: string;
     correctOptionID?: number;
     chatId?: string;
     disableNotification?: boolean;
     isAnonymous?: boolean;
 };
-declare type sendMessage = {
-    message: string;
+declare type defaultMessage = {
     chatId?: string;
     disableNotification?: boolean;
 };
@@ -114,10 +132,11 @@ export default class TelegramBot {
     path: string;
     constructor(botToken: string, chatId?: string);
     publicCall(method: string, qs: string): Promise<any>;
-    sendMessage({ message, chatId, disableNotification }: sendMessage): Promise<sendMessageReturn>;
-    sendContact({ phoneNumber, firstName, chatId, disableNotification }: sendContact): Promise<sendContactReturn>;
-    sendPoll({ question, options, type, correctOptionID, chatId, disableNotification, isAnonymous }: sendPoll): Promise<sendPollReturn>;
-    sendDice(chatId?: string, disableNotification?: boolean): Promise<sendDiceReturn>;
+    sendMessage(message: string, options?: defaultMessage): Promise<sendMessageReturn>;
+    sendContact(firstName: string, phoneNumber: string, options?: defaultMessage): Promise<sendContactReturn>;
+    sendPoll(question: string, choices: string[], options?: sendPoll): Promise<sendPollReturn>;
+    sendDice(options?: defaultMessage): Promise<sendDiceReturn>;
     getUpdates(): Promise<getUpdatesReturn>;
+    sendPhotoString(photo: string, options?: defaultMessage): Promise<sendPhotoReturn>;
 }
 export {};
