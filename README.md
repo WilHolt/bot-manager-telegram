@@ -73,10 +73,14 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendContact() {
+
+ // First argument is the first name of the contact
+ // The second argument is the phone number
   const response = await bot.sendContact(
-    firstName: "Alvaro",
-    phoneNumber: "+556599999999",
+    "Alvaro",
+    "+556599999999",
  );
+ 
   console.log(response);
 }
 
