@@ -1,5 +1,7 @@
 # A Simple bot manager for telegram
 
+[![NPM](https://nodei.co/npm/telegram-bot-nodejs.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/telegram-bot-nodejs)
+
 [![npm version](https://badge.fury.io/js/telegram-bot-nodejs.svg)](https://badge.fury.io/js/telegram-bot-nodejs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![npm](https://img.shields.io/npm/dw/telegram-bot-nodejs)](https://www.npmjs.com/package/telegram-bot-nodejs)
