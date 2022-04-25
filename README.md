@@ -18,15 +18,31 @@ $ npm install telegram-bot-nodejs
 [How to get your chat id](https://stackoverflow.com/questions/32423837/telegram-bot-how-to-get-a-group-chat-id)\
 Copy the bot token and your chat id
 
-#
 
 ### Start your bot here:
+
+
+
+
+#### import syntax
 
 ```typescript
 import TelegramBot from "telegram-bot-nodejs";
 
 const bot = new TelegramBot("your token here", "chatId here");
 ```
+
+#### require syntax
+
+```typescript
+const TelegramBot = require("telegram-bot-nodejs");
+
+const bot = new TelegramBot("your token here", "chatId here");
+```
+
+<hr></hr>
+
+
 
 The chatId is not mandatory but it's recommended to use.
 Otherwise you will have to send the _chatId_ in every request
