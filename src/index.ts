@@ -172,12 +172,12 @@ export default class TelegramBot {
     return response
   }
 
-  async sendPoll(question: string, choices: string[], options?: sendPoll): Promise<sendPollReturn> {
+  async sendPoll(question: string, questionOptions: string[], options?: sendPoll): Promise<sendPollReturn> {
     const messageParams = qs.stringify({
       chat_id: options?.chatId || this.chatId,
       question: question,
       is_anonymous: options?.isAnonymous || true,
-      options: JSON.stringify(choices),
+      options: JSON.stringify(questionOptions),
       type: options?.type || "regular",
       correct_option_id: options?.correctOptionID,
       disableNotification: options?.disableNotification || false,
@@ -210,5 +210,4 @@ export default class TelegramBot {
     const response = await this.publicCall("sendPhoto", messageParams)
     return response
   }
-
 }

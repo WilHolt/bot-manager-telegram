@@ -50,13 +50,13 @@ class TelegramBot {
             return response;
         });
     }
-    sendPoll(question, choices, options) {
+    sendPoll(question, questionOptions, options) {
         return __awaiter(this, void 0, void 0, function* () {
             const messageParams = qs_1.default.stringify({
                 chat_id: (options === null || options === void 0 ? void 0 : options.chatId) || this.chatId,
                 question: question,
                 is_anonymous: (options === null || options === void 0 ? void 0 : options.isAnonymous) || true,
-                options: JSON.stringify(choices),
+                options: JSON.stringify(questionOptions),
                 type: (options === null || options === void 0 ? void 0 : options.type) || "regular",
                 correct_option_id: options === null || options === void 0 ? void 0 : options.correctOptionID,
                 disableNotification: (options === null || options === void 0 ? void 0 : options.disableNotification) || false,
@@ -93,4 +93,4 @@ class TelegramBot {
         });
     }
 }
-exports.default = TelegramBot;
+module.exports = TelegramBot;

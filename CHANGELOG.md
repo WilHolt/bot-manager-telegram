@@ -19,3 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
  - Improved types for responses
+
+## [1.1.9] - 2022-04-25
+
+### Fixed
+ - Fixed the 'TelegramBot is not a constructor' error
