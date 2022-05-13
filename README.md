@@ -4,7 +4,7 @@
 
 [![npm version](https://badge.fury.io/js/telegram-bot-nodejs.svg)](https://badge.fury.io/js/telegram-bot-nodejs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![npm](https://img.shields.io/npm/dw/telegram-bot-nodejs)](https://www.npmjs.com/package/telegram-bot-nodejs)
+[![Coverage Status](https://coveralls.io/repos/github/alvaroBegnini/bot-manager-telegram/badge.svg?branch=main)](https://coveralls.io/github/alvaroBegnini/bot-manager-telegram?branch=main)
 [![GitHub last commit](https://img.shields.io/github/last-commit/alvaroBegnini/bot-manager-telegram)](https://github.com/alvaroBegnini/bot-manager-telegram)
 [![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/alvaroBegnini/bot-manager-telegram)](https://github.com/alvaroBegnini/bot-manager-telegram)
 
