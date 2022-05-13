@@ -38,7 +38,7 @@ const bot = new TelegramBot("your token here", "chatId here");
 #### require syntax
 
 ```typescript
-const TelegramBot = require("telegram-bot-nodejs");
+const TelegramBot = require("telegram-bot-nodejs").default;
 
 const bot = new TelegramBot("your token here", "chatId here");
 ```

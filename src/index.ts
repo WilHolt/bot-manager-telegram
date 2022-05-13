@@ -210,4 +210,6 @@ export default class TelegramBot {
     const response = await this.publicCall("sendPhoto", messageParams)
     return response
   }
+
+  
 }
