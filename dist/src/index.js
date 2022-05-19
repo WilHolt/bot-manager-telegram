@@ -163,12 +163,48 @@ var TelegramBot = /** @class */ (function () {
                         messageParams = qs_1.default.stringify({
                             chat_id: (options === null || options === void 0 ? void 0 : options.chatId) || this.chatId,
                             disableNotification: (options === null || options === void 0 ? void 0 : options.disableNotification) || false,
-                            photo: photo
+                            photo: photo,
                         });
                         return [4 /*yield*/, this.publicCall("sendPhoto", messageParams)];
                     case 1:
                         response = _a.sent();
                         return [2 /*return*/, response];
+                }
+            });
+        });
+    };
+    TelegramBot.prototype.getChat = function (chatId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var messageParams, response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        messageParams = qs_1.default.stringify({
+                            chat_id: chatId || this.chatId,
+                        });
+                        return [4 /*yield*/, this.publicCall("getChat", messageParams)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response];
+                }
+            });
+        });
+    };
+    TelegramBot.prototype.getMessages = function (chatId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var id, response, responseFromChat;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getChat(chatId || this.chatId)];
+                    case 1:
+                        id = (_a.sent()).result.id;
+                        return [4 /*yield*/, (0, axios_1.default)("".concat(this.path, "/getUpdates"))];
+                    case 2:
+                        response = (_a.sent()).data;
+                        responseFromChat = response.result.filter(function (update) {
+                            return update.message.chat.id == id;
+                        });
+                        return [2 /*return*/, responseFromChat];
                 }
             });
         });

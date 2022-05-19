@@ -126,7 +126,7 @@ declare type defaultMessage = {
     chatId?: string;
     disableNotification?: boolean;
 };
-export default class TelegramBot {
+declare class TelegramBot {
     token: string;
     chatId?: string;
     path: string;
@@ -138,5 +138,7 @@ export default class TelegramBot {
     sendDice(options?: defaultMessage): Promise<sendDiceReturn>;
     getUpdates(): Promise<getUpdatesReturn>;
     sendPhotoString(photo: string, options?: defaultMessage): Promise<sendPhotoReturn>;
+    getChat(chatId?: string): Promise<any>;
+    getMessages(chatId?: string): Promise<any>;
 }
-export {};
+export default TelegramBot;
