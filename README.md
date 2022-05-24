@@ -23,7 +23,7 @@ $ yarn add telegram-bot-nodejs
 #
 
 [How to create a new bot](https://core.telegram.org/bots#6-botfather)\
-[How to get your chat id](https://stackoverflow.com/questions/32423837/telegram-bot-how-to-get-a-group-chat-id)\
+[How to get your chat id](https://stackoverflow.com/questions/32423837/telegram-bot-how-to-get-a-group-chat-id)
 
 Copy the bot token and your chat id
 
@@ -42,7 +42,7 @@ const bot = new TelegramBot("your token here", "chatId here");
 #### require syntax
 
 ```typescript
-const { TelegramBot } = require("telegram-bot-nodejs").default;
+const { TelegramBot } = require("telegram-bot-nodejs");
 
 const bot = new TelegramBot("your token here", "chatId here");
 ```
