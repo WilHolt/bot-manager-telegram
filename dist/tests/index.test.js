@@ -35,12 +35,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-var index_1 = __importDefault(require("../src/index"));
-var bot = new index_1.default("5118466828:AAGpZmebzzwTg_luVxP9OBgi_PteNgRg_Wk", "1341716338");
+var src_1 = require("../src");
+var bot = new src_1.TelegramBot("5118466828:AAGpZmebzzwTg_luVxP9OBgi_PteNgRg_Wk", "1341716338");
 describe("Testing index.ts", function () {
     test("Send a message in a telegram chat", function () { return __awaiter(void 0, void 0, void 0, function () {
         var _a;

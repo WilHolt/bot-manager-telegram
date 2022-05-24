@@ -1,161 +1,13 @@
+import * as types from "./types";
 import axios from "axios";
 import qs from "qs";
 import "./index";
 
-type getUpdatesDataMessage = {
-  message_id: number,
-  from: { id: number, is_bot: boolean, first_name: string, language_code: string },
-  chat: { id: number, first_name: string, type: string, language_code: string }
-  date: number,
-  text: string
-}
-
-type getUpdatesData = {
-  update_id: number,
-  message: getUpdatesDataMessage
-}
-
-type sendPhotoReturnResult = {
-  message_id: number;
-  from: { id: number; is_bot: boolean; first_name: string; username: string };
-  chat: { id: number; first_name: string; type: string };
-  date: number;
-  photo: {
-    file_id: string;
-    file_unique_id: string;
-    file_size: number;
-    width: number;
-    height: number;
-  }[];
-};
-
-type sendPhotoReturn = {
-  ok: boolean;
-  result: sendPhotoReturnResult;
-};
-
-type sendPollReturnResultPoll = {
-  id: string;
-  question: string;
-  options: {
-    text: string;
-    voter_count: number;
-  }[];
-  total_voter_count: number;
-  is_closed: boolean;
-  is_anonymous: boolean;
-  type: string;
-  allows_multiple_answers: boolean;
-};
-
-type sendPollReturnResult = {
-  message_id: number;
-  from: resultFrom;
-  chat: resultChat;
-  date: number;
-  poll: sendPollReturnResultPoll;
-};
-
-type sendPollReturn = {
-  ok: boolean;
-  result: sendPollReturnResult;
-};
-
-type getUpdatesReturnFrom = {
-  message_id: number;
-  from: resultFrom;
-  chat: resultChat;
-  date: number;
-  text: string;
-};
-
-type getUpdatesReturn = {
-  ok: boolean;
-  result: {
-    update_id: number;
-    message: getUpdatesReturnFrom;
-  }[];
-};
-
-type sendDiceReturnResultDice = {
-  emoji: string;
-  value: number;
-};
-
-type sendDiceReturnResult = {
-  message_id: number;
-  from: resultFrom;
-  chat: resultChat;
-  date: number;
-  dice: sendDiceReturnResultDice;
-};
-
-type sendDiceReturn = {
-  ok: boolean;
-  result: sendDiceReturnResult;
-};
-
-type sendContactReturnResultContact = {
-  phone_number: string;
-  first_name: string;
-};
-
-type sendContactReturnResult = {
-  message_id: number;
-  from: sendContactReturnResultContact;
-  chat: resultChat;
-  date: number;
-  contact: sendContactReturnResult;
-};
-
-type sendContactReturn = {
-  ok: boolean;
-  result: sendContactReturnResult;
-};
-
-type resultChat = {
-  id: number;
-  firstName: string;
-  type: string;
-};
-
-type resultFrom = {
-  id: number;
-  is_bot: boolean;
-  firstName: string;
-  username: string;
-};
-
-type sendMessageResult = {
-  message_id: number;
-  from: resultFrom;
-  chat: resultChat;
-  date: number;
-  text: string;
-};
-
-type sendMessageReturn = {
-  ok: boolean;
-  result: sendMessageResult;
-};
-
-type sendPoll = {
-  type?: string;
-  correctOptionID?: number;
-  chatId?: string;
-  disableNotification?: boolean;
-  isAnonymous?: boolean;
-};
-
-type defaultMessage = {
-  chatId?: string;
-  disableNotification?: boolean;
-};
-
-class TelegramBot {
+export class TelegramBot {
   token: string;
   chatId?: string;
   path: string;
+  interval?: NodeJS.Timeout;
 
   constructor(botToken: string, chatId?: string) {
     this.token = botToken;
@@ -168,10 +20,7 @@ class TelegramBot {
     return response.data;
   }
 
-  async sendMessage(
-    message: string,
-    options?: defaultMessage
-  ): Promise<sendMessageReturn> {
+  async sendMessage(message: string, options?: types.defaultMessage): Promise<types.sendMessageReturn> {
     const messageParams = qs.stringify({
       text: message,
       chat_id: options?.chatId || this.chatId,
@@ -181,11 +30,7 @@ class TelegramBot {
     return response;
   }
 
-  async sendContact(
-    firstName: string,
-    phoneNumber: string,
-    options?: defaultMessage
-  ): Promise<sendContactReturn> {
+  async sendContact(firstName: string, phoneNumber: string, options?: types.defaultMessage): Promise<types.sendContactReturn> {
     const messageParams = qs.stringify({
       chat_id: options?.chatId || this.chatId,
       phone_number: phoneNumber,
@@ -196,11 +41,7 @@ class TelegramBot {
     return response;
   }
 
-  async sendPoll(
-    question: string,
-    questionOptions: string[],
-    options?: sendPoll
-  ): Promise<sendPollReturn> {
+  async sendPoll(question: string, questionOptions: string[], options?: types.sendPoll): Promise<types.sendPollReturn> {
     const messageParams = qs.stringify({
       chat_id: options?.chatId || this.chatId,
       question: question,
@@ -215,7 +56,7 @@ class TelegramBot {
     return response;
   }
 
-  async sendDice(options?: defaultMessage): Promise<sendDiceReturn> {
+  async sendDice(options?: types.defaultMessage): Promise<types.sendDiceReturn> {
     const messageParams = qs.stringify({
       chat_id: options?.chatId || this.chatId,
       disableNotification: options?.disableNotification || false,
@@ -224,15 +65,16 @@ class TelegramBot {
     return response;
   }
 
-  async getUpdates(): Promise<getUpdatesReturn> {
-    const response = (await axios(`${this.path}/getUpdates`)).data;
+  async getUpdates(offsetNumber = 0): Promise<types.getUpdatesReturn> {
+    const messageParams = qs.stringify({
+      offset: offsetNumber,
+    });
+    const response: types.getUpdatesReturn = await this.publicCall("getUpdates", messageParams);
+    if (response.result.length > 90) await this.getUpdates(response.result[response.result.length - 1].update_id);
     return response;
   }
 
-  async sendPhotoString(
-    photo: string,
-    options?: defaultMessage
-  ): Promise<sendPhotoReturn> {
+  async sendPhotoString(photo: string, options?: types.defaultMessage): Promise<types.sendPhotoReturn> {
     const messageParams = qs.stringify({
       chat_id: options?.chatId || this.chatId,
       disableNotification: options?.disableNotification || false,
@@ -250,14 +92,52 @@ class TelegramBot {
     return response;
   }
 
-  async getMessages(chatId?: string) {
-    const id = (await this.getChat(chatId || this.chatId)).result.id
-    const response = (await axios(`${this.path}/getUpdates`)).data;
-    const responseFromChat = response.result.filter((update: getUpdatesData) => {
-      return update.message.chat.id == id
-    })
-    return responseFromChat
+  async getMessages(chatId?: string): Promise<types.getUpdatesReturnResult[]> {
+    const id = (await this.getChat(chatId || this.chatId)).result.id;
+    const response = await this.getUpdates();
+    const responseFromChat = response.result.filter((update: types.getUpdatesReturnResult) => {
+      return update.message.chat.id == id;
+    });
+    return responseFromChat;
+  }
+
+  async clearInterval() {
+    if (this.interval) clearInterval(this.interval);
+  }
+
+  async onMessage(waitForMessage: string, callback: any, chatId?: string): Promise<void> {
+    const defaultTimestamp = parseInt(new Date().getTime().toString().substring(0, 10));
+    const intervalFunction = async (timestampInterval: number, lastMessageID?: number | undefined) => {
+      const allMessages = await this.getMessages(chatId || this.chatId);
+      const newMessages = allMessages.filter((message) => {
+        return message.message.date > timestampInterval;
+      });
+      const arrID = lastMessageID ? newMessages.map((i) => i.message.message_id).indexOf(lastMessageID) : undefined;
+      const newArray = arrID === undefined ? newMessages : newMessages.length <= 1 ? [] : newMessages.slice(arrID, newMessages.length - 1);
+      for (const newMessage of newArray) {
+        if (newMessage.message.text === waitForMessage) callback();
+      }
+      const newTimestamp = newArray.length > 0 ? newArray[newArray.length - 1].message.date : timestampInterval;
+      const msgID = newArray.length > 0 ? newMessages[newMessages.length - 1].message.message_id : lastMessageID ? lastMessageID : undefined;
+      setTimeout(() => intervalFunction(newTimestamp - 1, msgID), 1000);
+    };
+    intervalFunction(defaultTimestamp);
+  }
+
+  async onAnyMessage(callback: any, chatId?: string): Promise<void> {
+    const defaultTimestamp = parseInt(new Date().getTime().toString().substring(0, 10));
+    const intervalFunction = async (timestampInterval: number, lastMessageID?: number | undefined) => {
+      const allMessages = await this.getMessages(chatId || this.chatId);
+      const newMessages = allMessages.filter((message) => {
+        return message.message.date > timestampInterval;
+      });
+      const arrID = lastMessageID ? newMessages.map((i) => i.message.message_id).indexOf(lastMessageID) : undefined;
+      const newArray = arrID === undefined ? newMessages : newMessages.length <= 1 ? [] : newMessages.slice(arrID, newMessages.length - 1);
+      newArray.map(() => callback());
+      const newTimestamp = newArray.length > 0 ? newArray[newArray.length - 1].message.date : timestampInterval;
+      const msgID = newArray.length > 0 ? newMessages[newMessages.length - 1].message.message_id : lastMessageID ? lastMessageID : undefined;
+      setTimeout(() => intervalFunction(newTimestamp - 1, msgID), 1000);
+    };
+    intervalFunction(defaultTimestamp);
   }
 }
-
-export default TelegramBot;

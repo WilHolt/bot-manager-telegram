@@ -39,6 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.TelegramBot = void 0;
 var axios_1 = __importDefault(require("axios"));
 var qs_1 = __importDefault(require("qs"));
 require("./index");
@@ -141,15 +142,25 @@ var TelegramBot = /** @class */ (function () {
             });
         });
     };
-    TelegramBot.prototype.getUpdates = function () {
+    TelegramBot.prototype.getUpdates = function (offsetNumber) {
+        if (offsetNumber === void 0) { offsetNumber = 0; }
         return __awaiter(this, void 0, void 0, function () {
-            var response;
+            var messageParams, response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, axios_1.default)("".concat(this.path, "/getUpdates"))];
+                    case 0:
+                        messageParams = qs_1.default.stringify({
+                            offset: offsetNumber,
+                        });
+                        return [4 /*yield*/, this.publicCall("getUpdates", messageParams)];
                     case 1:
-                        response = (_a.sent()).data;
-                        return [2 /*return*/, response];
+                        response = _a.sent();
+                        if (!(response.result.length > 90)) return [3 /*break*/, 3];
+                        return [4 /*yield*/, this.getUpdates(response.result[response.result.length - 1].update_id)];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3: return [2 /*return*/, response];
                 }
             });
         });
@@ -198,9 +209,9 @@ var TelegramBot = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.getChat(chatId || this.chatId)];
                     case 1:
                         id = (_a.sent()).result.id;
-                        return [4 /*yield*/, (0, axios_1.default)("".concat(this.path, "/getUpdates"))];
+                        return [4 /*yield*/, this.getUpdates()];
                     case 2:
-                        response = (_a.sent()).data;
+                        response = _a.sent();
                         responseFromChat = response.result.filter(function (update) {
                             return update.message.chat.id == id;
                         });
@@ -209,6 +220,81 @@ var TelegramBot = /** @class */ (function () {
             });
         });
     };
+    TelegramBot.prototype.clearInterval = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                if (this.interval)
+                    clearInterval(this.interval);
+                return [2 /*return*/];
+            });
+        });
+    };
+    TelegramBot.prototype.onMessage = function (waitForMessage, callback, chatId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var defaultTimestamp, intervalFunction;
+            var _this = this;
+            return __generator(this, function (_a) {
+                defaultTimestamp = parseInt(new Date().getTime().toString().substring(0, 10));
+                intervalFunction = function (timestampInterval, lastMessageID) { return __awaiter(_this, void 0, void 0, function () {
+                    var allMessages, newMessages, arrID, newArray, _i, newArray_1, newMessage, newTimestamp, msgID;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, this.getMessages(chatId || this.chatId)];
+                            case 1:
+                                allMessages = _a.sent();
+                                newMessages = allMessages.filter(function (message) {
+                                    return message.message.date > timestampInterval;
+                                });
+                                arrID = lastMessageID ? newMessages.map(function (i) { return i.message.message_id; }).indexOf(lastMessageID) : undefined;
+                                newArray = arrID === undefined ? newMessages : newMessages.length <= 1 ? [] : newMessages.slice(arrID, newMessages.length - 1);
+                                for (_i = 0, newArray_1 = newArray; _i < newArray_1.length; _i++) {
+                                    newMessage = newArray_1[_i];
+                                    if (newMessage.message.text === waitForMessage)
+                                        callback();
+                                }
+                                newTimestamp = newArray.length > 0 ? newArray[newArray.length - 1].message.date : timestampInterval;
+                                msgID = newArray.length > 0 ? newMessages[newMessages.length - 1].message.message_id : lastMessageID ? lastMessageID : undefined;
+                                setTimeout(function () { return intervalFunction(newTimestamp - 1, msgID); }, 1000);
+                                return [2 /*return*/];
+                        }
+                    });
+                }); };
+                intervalFunction(defaultTimestamp);
+                return [2 /*return*/];
+            });
+        });
+    };
+    TelegramBot.prototype.onAnyMessage = function (callback, chatId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var defaultTimestamp, intervalFunction;
+            var _this = this;
+            return __generator(this, function (_a) {
+                defaultTimestamp = parseInt(new Date().getTime().toString().substring(0, 10));
+                intervalFunction = function (timestampInterval, lastMessageID) { return __awaiter(_this, void 0, void 0, function () {
+                    var allMessages, newMessages, arrID, newArray, newTimestamp, msgID;
+                    return __generator(this, function (_a) {
+                        switch (_a.label) {
+                            case 0: return [4 /*yield*/, this.getMessages(chatId || this.chatId)];
+                            case 1:
+                                allMessages = _a.sent();
+                                newMessages = allMessages.filter(function (message) {
+                                    return message.message.date > timestampInterval;
+                                });
+                                arrID = lastMessageID ? newMessages.map(function (i) { return i.message.message_id; }).indexOf(lastMessageID) : undefined;
+                                newArray = arrID === undefined ? newMessages : newMessages.length <= 1 ? [] : newMessages.slice(arrID, newMessages.length - 1);
+                                newArray.map(function () { return callback(); });
+                                newTimestamp = newArray.length > 0 ? newArray[newArray.length - 1].message.date : timestampInterval;
+                                msgID = newArray.length > 0 ? newMessages[newMessages.length - 1].message.message_id : lastMessageID ? lastMessageID : undefined;
+                                setTimeout(function () { return intervalFunction(newTimestamp - 1, msgID); }, 1000);
+                                return [2 /*return*/];
+                        }
+                    });
+                }); };
+                intervalFunction(defaultTimestamp);
+                return [2 /*return*/];
+            });
+        });
+    };
     return TelegramBot;
 }());
-exports.default = TelegramBot;
+exports.TelegramBot = TelegramBot;

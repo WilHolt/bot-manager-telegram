@@ -8,29 +8,33 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/alvaroBegnini/bot-manager-telegram)](https://github.com/alvaroBegnini/bot-manager-telegram)
 [![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/alvaroBegnini/bot-manager-telegram)](https://github.com/alvaroBegnini/bot-manager-telegram)
 
-
 ## **Getting started**
 
 ```
 $ npm install telegram-bot-nodejs
 ```
 
+```
+$ yarn add telegram-bot-nodejs
+```
+
 ### First you will need a bot created with botFather and a chatId to send the messages
+
+#
 
 [How to create a new bot](https://core.telegram.org/bots#6-botfather)\
 [How to get your chat id](https://stackoverflow.com/questions/32423837/telegram-bot-how-to-get-a-group-chat-id)\
+
 Copy the bot token and your chat id
 
+#
 
-### Start your bot here:
-
-
-
+# Start your bot here:
 
 #### import syntax
 
 ```typescript
-import TelegramBot from "telegram-bot-nodejs";
+import { TelegramBot } from "telegram-bot-nodejs";
 
 const bot = new TelegramBot("your token here", "chatId here");
 ```
@@ -38,17 +42,41 @@ const bot = new TelegramBot("your token here", "chatId here");
 #### require syntax
 
 ```typescript
-const TelegramBot = require("telegram-bot-nodejs").default;
+const { TelegramBot } = require("telegram-bot-nodejs").default;
 
 const bot = new TelegramBot("your token here", "chatId here");
 ```
 
-<hr></hr>
-
-
-
 The chatId is not mandatory but it's recommended to use.
 Otherwise you will have to send the _chatId_ in every request
+
+#
+
+### **Callbacks on message**
+
+```typescript
+async function main() {
+  await bot.onAnyMessage(async () => {
+    await bot.sendMessage("Hello");
+  });
+}
+
+main();
+```
+
+```typescript
+async function main() {
+  //The first argument is the matching text for the callback to be executed
+  //The second argument is the callback function
+  await bot.onMessage("Hi", async () => {
+    await bot.sendMessage("Hello");
+  });
+}
+
+main();
+```
+
+#
 
 ### **Sending message**
 
@@ -64,6 +92,8 @@ async function sendMessage() {
 
 sendMessage();
 ```
+
+#
 
 ### **Sending message to another chat**
 
@@ -84,6 +114,8 @@ async function sendMessage() {
 sendMessage();
 ```
 
+#
+
 ### **Sending contacts**
 
 ```typescript
@@ -92,19 +124,17 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendContact() {
+  // First argument is the first name of the contact
+  // The second argument is the phone number
+  const response = await bot.sendContact("Alvaro", "+556599999999");
 
- // First argument is the first name of the contact
- // The second argument is the phone number
-  const response = await bot.sendContact(
-    "Alvaro",
-    "+556599999999",
- );
- 
   console.log(response);
 }
 
 sendContact();
 ```
+
+#
 
 ### **Get updates**
 
@@ -121,6 +151,8 @@ async function getUpdates() {
 getUpdates();
 ```
 
+#
+
 ### **Send poll**
 
 ```typescript
@@ -129,10 +161,7 @@ import TelegramBot from "telegram-bot-nodejs";
 const bot = new TelegramBot("your token here", "chatId here");
 
 async function sendPoll() {
-  const response = await bot.sendPoll(
-    "Some random question here",
-    ["option1", "option2", "option3"],
-  );
+  const response = await bot.sendPoll("Some random question here", ["option1", "option2", "option3"]);
   console.log(response);
 
   sendPoll();
@@ -140,6 +169,8 @@ async function sendPoll() {
 
 //By default the type of polling will be regular, but you can make a quiz with {type: "quiz"}
 ```
+
+#
 
 ### **Silent notifications**
 
@@ -160,6 +191,8 @@ async function silentMessage() {
 silentMessage();
 ```
 
+#
+
 ### **Send dice**
 
 send a dice that lands on a random number
@@ -176,6 +209,8 @@ async function sendDice() {
 
 sendDice();
 ```
+
+#
 
 ### **Send photo**
 

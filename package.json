@@ -6,7 +6,8 @@
   "types": "./dist/src/index.d.ts",
   "scripts": {
     "test": "npx jest",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "build": "tsc --declaration"
   },
   "repository": "https://github.com/alvaroBegnini/bot-manager-telegram.git",
   "author": "Alvaro <begninialvaro@gmail.com>",
