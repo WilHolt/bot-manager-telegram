@@ -282,7 +282,7 @@ var TelegramBot = /** @class */ (function () {
                                 });
                                 arrID = lastMessageID ? newMessages.map(function (i) { return i.message.message_id; }).indexOf(lastMessageID) : undefined;
                                 newArray = arrID === undefined ? newMessages : newMessages.length <= 1 ? [] : newMessages.slice(arrID, newMessages.length - 1);
-                                newArray.map(function () { return callback(); });
+                                newArray.map(function () { return callback(newMessages); });
                                 newTimestamp = newArray.length > 0 ? newArray[newArray.length - 1].message.date : timestampInterval;
                                 msgID = newArray.length > 0 ? newMessages[newMessages.length - 1].message.message_id : lastMessageID ? lastMessageID : undefined;
                                 setTimeout(function () { return intervalFunction(newTimestamp - 1, msgID); }, 1000);
