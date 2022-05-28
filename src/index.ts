@@ -133,7 +133,7 @@ export class TelegramBot {
       });
       const arrID = lastMessageID ? newMessages.map((i) => i.message.message_id).indexOf(lastMessageID) : undefined;
       const newArray = arrID === undefined ? newMessages : newMessages.length <= 1 ? [] : newMessages.slice(arrID, newMessages.length - 1);
-      newArray.map(() => callback());
+      newArray.map(() => callback(newMessages));
       const newTimestamp = newArray.length > 0 ? newArray[newArray.length - 1].message.date : timestampInterval;
       const msgID = newArray.length > 0 ? newMessages[newMessages.length - 1].message.message_id : lastMessageID ? lastMessageID : undefined;
       setTimeout(() => intervalFunction(newTimestamp - 1, msgID), 1000);
